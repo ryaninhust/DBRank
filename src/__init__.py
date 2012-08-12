@@ -47,23 +47,24 @@ class User(object):
     
     def get_DBRank(self,base_level):
         if self.level == base_level:
-            return 1
+            return 1.00000
         try:
             self.get_slaves()
             type(self.users)
         except AttributeError:
             raise MasterException
         except UserDoesNotExistError:
-            return 0
+            return 0.00000
         else:
+            DBRank = 0.00000
             for user in self.users:
                 if user.following_count == 0:
                     continue
-                DBRank =+ 0.85 * user.get_DBRank(base_level)/user.following_count
-            DBRank=+0.15
+                DBRank = DBRank + 0.85000 * user.get_DBRank(base_level)/user.following_count
+            DBRank =DBRank + 0.15000
             return DBRank
 
 if __name__ == '__main__':
     user = User(0)
-    user.uid = 'tonyseek'
-    print  user.get_DBRank(3)
+    user.uid = 'ryancoder'
+    print ('%f') % user.get_DBRank(2)
